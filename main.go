@@ -19,19 +19,19 @@ func snippetView(w http.ResponseWriter, r *http.Request) {
 }
 
 func snippetCreate(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Create a new snippet..."))
+	if r.Method != "POST" {
+		w.WriteHeader(405) // method not allowed HTTP status code
+		w.Write([]byte("method not allowed"))
+		return
+	}
+
+	w.Write([]byte("Create a new snippet...")) // 200 OK by default
 }
 
 func main() {
-	// NOTE: servemux in Go terminology = router
-	mux := http.NewServeMux() // a new ServeMux: an HTTP request multiplexer
+	mux := http.NewServeMux()
 
-	// NOTE: subtree path (ends with a trailing / e.g. /** or /static/** ->
-	// NOTE: acts like a catch-all)
 	mux.HandleFunc("/", home)
-
-	// NOTE: fixed paths (not ending with /): request URL path should exactly
-	// NOTE: match the fixed path
 	mux.HandleFunc("/snippet/view", snippetView)
 	mux.HandleFunc("/snippet/create", snippetCreate)
 
