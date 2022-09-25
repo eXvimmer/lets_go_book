@@ -16,12 +16,13 @@ import (
 type application struct {
 	errorLog *log.Logger
 	infoLog  *log.Logger
-	snippets *models.SnippetModel // now SnippetModel is available for handlers
+	snippets *models.SnippetModel
 }
 
 func main() {
 	err := godotenv.Load()
 	if err != nil {
+		// FIX: Should this be Fatal?
 		log.Fatal("Error loading .env file")
 	}
 
@@ -58,7 +59,7 @@ func main() {
 
 	srv := &http.Server{
 		Addr:     *addr,
-		ErrorLog: errorLog, // use the custom error logger
+		ErrorLog: errorLog,
 		Handler:  app.routes(),
 	}
 

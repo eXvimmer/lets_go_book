@@ -18,9 +18,28 @@ type SnippetModel struct {
 	DB *sql.DB
 }
 
-// TODO: insert a new snippet to the database
+//  Insert a new snippet to the database and return it's id and an error
 func (m *SnippetModel) Insert(title, content string, expires int) (int, error) {
-	return 0, nil
+	stmt := `
+    INSERT INTO snippets (title, content, created, expires)
+    VALUES (
+      ?,
+      ?,
+      UTC_TIMESTAMP(),
+      DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY)
+    );
+  `
+	result, err := m.DB.Exec(stmt, title, content, expires)
+	if err != nil {
+		return 0, err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+
+	return int(id), nil // NOTE: I'm not sure about returning int type for id
 }
 
 // TODO: return a specifc snippet based on its id
