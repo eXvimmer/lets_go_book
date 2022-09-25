@@ -45,11 +45,6 @@ func (m *SnippetModel) Insert(title, content string, expires int) (int, error) {
 
 // return a specifc snippet based on its id
 func (m *SnippetModel) Get(id int) (*Snippet, error) {
-	/* NOTE:
-	 * The placeholder parameter syntax differs depending on your database.
-	 * MySQL, SQL Server and SQLite use the ? notation, but PostgreSQL uses the
-	 * $N notation, e.g. $1, $2 ...
-	 */
 	stmt := `
     SELECT id, title, content, created, expires
     FROM snippets
@@ -59,11 +54,6 @@ func (m *SnippetModel) Get(id int) (*Snippet, error) {
 	row := m.DB.QueryRow(stmt, id)
 
 	s := &Snippet{}
-	/* NOTE:
-	 * Notice that the arguments to row.Scan are *pointers* to the place you want
-	 * to copy the data into, and the number of arguments must be exactly the
-	 * same as the number of columns returned by your statement.
-	 */
 	err := row.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
