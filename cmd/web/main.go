@@ -20,21 +20,20 @@ type application struct {
 }
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		// FIX: Should this be Fatal?
-		log.Fatal("Error loading .env file")
-	}
-
-	addr := flag.String("addr", ":4000", "HTTP network address")
-
 	/* NOTE:
 	 * you should create a .env file at the root of your project and add
 	 * MYSQL_USERNAME & MYSQL_PASSWORD to it.
 	 */
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	dbUsername := os.Getenv("MYSQL_USERNAME")
 	dbPassword := os.Getenv("MYSQL_PASSWORD")
-	dsn := flag.String(
+
+	addr := flag.String("addr", ":4000", "HTTP network address")
+	dsn := flag.String( // data source name
 		"dsn",
 		dbUsername+":"+dbPassword+"@/snippetbox?parseTime=true",
 		"MySQL data source name",
