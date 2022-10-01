@@ -9,8 +9,8 @@ import (
 // Snippet type holds the data for an individual snippet.
 type Snippet struct {
 	ID      int
-	Title   string
-	Content string
+	Title   string //sql.NullString
+	Content string //sql.NullString
 	Created time.Time
 	Expires time.Time
 }
