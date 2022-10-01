@@ -5,9 +5,15 @@ import (
 	"fmt"
 	"net/http"
 	"runtime/debug"
+	"time"
 )
 
-func (app *application) render(w http.ResponseWriter, status int, page string, data *templateData) {
+func (app *application) render(
+	w http.ResponseWriter,
+	status int,
+	page string,
+	data *templateData,
+) {
 	ts, ok := app.templateCache[page] // get template for a page from cache
 	if !ok {
 		err := fmt.Errorf("the template %s does not exist", page)
@@ -22,6 +28,12 @@ func (app *application) render(w http.ResponseWriter, status int, page string, d
 	}
 	w.WriteHeader(status)
 	buf.WriteTo(w)
+}
+
+func (app *application) newTemplateData(r *http.Request) *templateData {
+	return &templateData{
+		CurrentYear: time.Now().Year(),
+	}
 }
 
 // The serverError helper writes an error message and stack trace to the

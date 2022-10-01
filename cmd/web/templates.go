@@ -10,8 +10,9 @@ import (
 // The holding struct for any dynamic data that we want to pass to our HTML
 // templates.
 type templateData struct {
-	Snippets []*models.Snippet
-	Snippet  *models.Snippet
+	CurrentYear int
+	Snippets    []*models.Snippet
+	Snippet     *models.Snippet
 }
 
 func newTemplateCache() (map[string]*template.Template, error) {
