@@ -10,6 +10,11 @@ import (
 // The routes() method returns a servemux containing our application routes.
 func (app *application) routes() http.Handler {
 	router := httprouter.New()
+	router.NotFound = http.HandlerFunc(
+		func(w http.ResponseWriter, r *http.Request) {
+			app.notFound(w)
+		},
+	)
 
 	// TODO: https://www.alexedwards.net/blog/disable-http-fileserver-directory-listings
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
