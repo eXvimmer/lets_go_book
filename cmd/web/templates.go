@@ -19,7 +19,7 @@ type templateData struct {
 // returns a nicely formatted string representation of a time.Time object
 func humanDate(t time.Time) string {
 	// NOTE: the structure of layout string is very important; check the doc
-	return t.Format("06 Jan 2006 at 15:04")
+	return t.Format("02 Jan 2006 at 15:04")
 }
 
 var functions = template.FuncMap{

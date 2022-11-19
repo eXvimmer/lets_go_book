@@ -19,7 +19,7 @@ type SnippetModel struct {
 	DB *sql.DB
 }
 
-//  Insert a new snippet to the database and return it's id and an error
+// Insert a new snippet to the database and return it's id and an error
 func (m *SnippetModel) Insert(title, content string, expires int) (int, error) {
 	stmt := `
     INSERT INTO snippets (title, content, created, expires)
