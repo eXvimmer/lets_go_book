@@ -2,21 +2,21 @@
 <form action="/snippet/create" method="POST">
   <div>
     <label for="title">Title:</label>
-    {{with .Form.FieldErrors.title}}
+    {{with .Form.Validator.FieldErrors.title}}
     <label class="error">{{.}}</label>
     {{end}}
     <input type="text" name="title" id="title" value="{{.Form.Title}}" />
   </div>
   <div>
     <label for="content">Content:</label>
-    {{with .Form.FieldErrors.content}}
+    {{with .Form.Validator.FieldErrors.content}}
     <label class="error">{{.}}</label>
     {{end}}
     <textarea name="content" id="content">{{.Form.Content}}</textarea>
   </div>
   <div>
     <label>Delete in:</label>
-    {{with .Form.FieldErrors.expires}}
+    {{with .Form.Validator.FieldErrors.expires}}
     <label class="error">{{.}}</label>
     {{end}}
     <input type="radio" name="expires" value="365" {{if (eq .Form.Expires 365)}}checked{{end}} /> One Year
