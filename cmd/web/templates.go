@@ -14,6 +14,7 @@ type templateData struct {
 	CurrentYear int
 	Snippets    []*models.Snippet
 	Snippet     *models.Snippet
+	Form        any // to pass validation errors and previously submitted data
 }
 
 // returns a nicely formatted string representation of a time.Time object
