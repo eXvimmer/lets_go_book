@@ -15,6 +15,7 @@ type templateData struct {
 	Snippets    []*models.Snippet
 	Snippet     *models.Snippet
 	Form        any // to pass validation errors and previously submitted data
+	Flash       string
 }
 
 // returns a nicely formatted string representation of a time.Time object
