@@ -22,3 +22,4 @@ go.work
 
 .env
 snippetbox
+tls/
