@@ -25,6 +25,12 @@ type userSignupForm struct {
 	validator.Validator `form:"-"`
 }
 
+type userLoginForm struct {
+	Email               string `form:"email"`
+	Password            string `form:"password"`
+	validator.Validator `form:"-"`
+}
+
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	snippets, err := app.snippets.Latest()
 	if err != nil {
@@ -156,13 +162,17 @@ func (app *application) userSignUpPost(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/user/login/", http.StatusSeeOther)
 }
 
-// TODO: complete these handlers
 func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Display a HTML form for logging in a user...")
+	data := app.newTemplateData(r)
+	data.Form = userLoginForm{}
+	app.render(w, http.StatusOK, "login.tmpl.html", data)
 }
+
+// TODO: complete these handlers
 func (app *application) userLoginPost(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Authenticate and login the user...")
 }
+
 func (app *application) userLogoutPost(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Logout the user...")
 }
