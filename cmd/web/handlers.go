@@ -111,11 +111,40 @@ func (app *application) userSignUp(w http.ResponseWriter, r *http.Request) {
 	app.render(w, http.StatusOK, "signup.tmpl.html", data)
 }
 
-// TODO: complete these handlers
 func (app *application) userSignUpPost(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Create a new user...")
+	var form userSignupForm
+	err := app.decodePostForm(r, &form)
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	form.CheckField(
+		validator.NotBlank(form.Name), "name", "this field cannot be blank")
+	form.CheckField(
+		validator.NotBlank(form.Email), "email", "this field cannot be blank")
+	form.CheckField(
+		validator.Matches(form.Email, validator.EmailRX),
+		"email", "this field must be a valid email address")
+	form.CheckField(
+		validator.NotBlank(form.Password),
+		"password", "this field cannot be blank")
+	form.CheckField(
+		validator.MinChars(form.Password, 8),
+		"password", "this field must be at least 8 characters long")
+
+	if !form.Valid() {
+		data := app.newTemplateData(r)
+		data.Form = form
+		app.render(w, http.StatusBadRequest, "signup.tmpl.html", data)
+		return
+	}
+
+	// TODO: send the real response
+	fmt.Fprint(w, "Create a new user...")
 }
 
+// TODO: complete these handlers
 func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Display a HTML form for logging in a user...")
 }
