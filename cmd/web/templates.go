@@ -11,11 +11,12 @@ import (
 // The holding struct for any dynamic data that we want to pass to our HTML
 // templates.
 type templateData struct {
-	CurrentYear int
-	Snippets    []*models.Snippet
-	Snippet     *models.Snippet
-	Form        any // to pass validation errors and previously submitted data
-	Flash       string
+	CurrentYear     int
+	Snippets        []*models.Snippet
+	Snippet         *models.Snippet
+	Form            any // to pass validation errors and previously submitted data
+	Flash           string
+	IsAuthenticated bool
 }
 
 // returns a nicely formatted string representation of a time.Time object
