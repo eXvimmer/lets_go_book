@@ -22,7 +22,7 @@ func (app *application) routes() http.Handler {
 		"/static/*filepath", http.StripPrefix("/static", fileServer))
 
 	// unprotected routes
-	dynamic := alice.New(app.sessionManager.LoadAndSave, app.noSurf)
+	dynamic := alice.New(app.sessionManager.LoadAndSave, noSurf, app.authenticate)
 
 	router.Handler(http.MethodGet, "/", dynamic.ThenFunc(app.home))
 	router.Handler(
