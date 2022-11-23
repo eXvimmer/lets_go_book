@@ -17,6 +17,7 @@ type templateData struct {
 	Form            any // to pass validation errors and previously submitted data
 	Flash           string
 	IsAuthenticated bool
+	CSRFToken       string
 }
 
 // returns a nicely formatted string representation of a time.Time object
