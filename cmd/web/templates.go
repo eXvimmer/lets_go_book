@@ -22,9 +22,12 @@ type templateData struct {
 	CSRFToken       string
 }
 
-// returns a nicely formatted string representation of a time.Time object
+// returns a nicely formatted UTC string representation of a time.Time object
 func humanDate(t time.Time) string {
-	return t.Format("02 Jan 2006 at 15:04")
+	if t.IsZero() {
+		return ""
+	}
+	return t.UTC().Format("02 Jan 2006 at 15:04")
 }
 
 var functions = template.FuncMap{
