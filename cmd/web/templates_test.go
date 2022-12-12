@@ -3,6 +3,8 @@ package main
 import (
 	"testing"
 	"time"
+
+	"github.com/exvimmer/lets_go/snippetbox/internal/assert"
 )
 
 func TestHumanDate(t *testing.T) {
@@ -30,9 +32,7 @@ func TestHumanDate(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			if got := humanDate(test.tm); got != test.want {
-				t.Errorf("got: %q, want: %q", got, test.want)
-			}
+			assert.Equal(t, humanDate(test.tm), test.want)
 		})
 	}
 }
