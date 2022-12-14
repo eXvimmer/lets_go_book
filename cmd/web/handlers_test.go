@@ -70,3 +70,12 @@ func TestSnippetView(t *testing.T) {
 		})
 	}
 }
+
+func TestUserSignUp(t *testing.T) {
+	app := newTestApplication(t)
+	ts := newTestServer(t, app.routes())
+	defer ts.Close()
+	_, _, body := ts.get(t, "/user/signup")
+	csrfToken := extractCSRFToken(t, body)
+	t.Logf("the token is %q\n", csrfToken)
+}

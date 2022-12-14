@@ -2,11 +2,13 @@ package main
 
 import (
 	"bytes"
+	"html"
 	"io"
 	"log"
 	"net/http"
 	"net/http/cookiejar"
 	"net/http/httptest"
+	"regexp"
 	"testing"
 	"time"
 
@@ -15,6 +17,18 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/go-playground/form/v4"
 )
+
+// TODO: You should modify this, if you changed the input tag in the templates
+var csrfTokenRX, _ = regexp.Compile(`<input type="hidden" name="csrf_token" value="(.+)">`)
+
+func extractCSRFToken(t *testing.T, body string) string {
+	matches := csrfTokenRX.FindStringSubmatch(body)
+	if len(matches) < 2 {
+		t.Fatal("no csrf token found in body")
+	}
+	// use UnescapeString to get the original, unscaped, token value
+	return html.UnescapeString(string(matches[1]))
+}
 
 // returns an instance of our application struct containing mocked dependencies.
 func newTestApplication(t *testing.T) *application {
