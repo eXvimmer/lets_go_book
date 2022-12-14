@@ -27,6 +27,7 @@ type application struct {
 	templateCache  map[string]*template.Template
 	formDecoder    *form.Decoder
 	sessionManager *scs.SessionManager
+	debug          bool
 }
 
 func main() {
@@ -48,6 +49,7 @@ func main() {
 		dbUsername+":"+dbPassword+"@/snippetbox?parseTime=true",
 		"MySQL data source name",
 	)
+	debug := flag.Bool("debug", false, "Enable debug mode")
 
 	flag.Parse()
 
@@ -79,6 +81,7 @@ func main() {
 		templateCache:  templateCache,
 		formDecoder:    formDecoer,
 		sessionManager: sessionManager,
+		debug:          *debug,
 	}
 
 	tlsConfig := &tls.Config{
