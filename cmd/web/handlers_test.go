@@ -66,7 +66,7 @@ func TestSnippetView(t *testing.T) {
 			code, _, body := ts.get(t, test.urlPath)
 			assert.Equal(t, code, test.wantCode)
 			if test.wantBody != "" {
-				assert.StringConaints(t, body, test.wantBody)
+				assert.StringContains(t, body, test.wantBody)
 			}
 		})
 	}
@@ -180,8 +180,35 @@ func TestUserSignUp(t *testing.T) {
 			assert.Equal(t, statusCode, test.wantStatusCode)
 
 			if test.wantFormTag != "" {
-				assert.StringConaints(t, body, test.wantFormTag)
+				assert.StringContains(t, body, test.wantFormTag)
 			}
 		})
 	}
+}
+
+func TestSnippetCreate(t *testing.T) {
+	app := newTestApplication(t)
+	ts := newTestServer(t, app.routes())
+	defer ts.Close()
+
+	t.Run("Unauthenticated", func(t *testing.T) {
+		statusCode, headers, _ := ts.get(t, "/snippet/create")
+		assert.Equal(t, statusCode, http.StatusSeeOther)
+		assert.Equal(t, headers.Get("Location"), "/user/login")
+	})
+
+	t.Run("Authenticatd", func(t *testing.T) {
+		_, _, body := ts.get(t, "/user/login")
+		csrfToken := extractCSRFToken(t, body)
+
+		form := url.Values{}
+		form.Add("email", "mustafa@gmail.com") // the email in mock user model
+		form.Add("password", "password")       // the password in mock user model
+		form.Add("csrf_token", csrfToken)
+		ts.postForm(t, "/user/login", form)
+
+		code, _, body := ts.get(t, "/snippet/create")
+		assert.Equal(t, code, http.StatusOK)
+		assert.StringContains(t, body, `<form action="/snippet/create" method="POST">`)
+	})
 }
