@@ -20,6 +20,7 @@ type templateData struct {
 	Flash           string
 	IsAuthenticated bool
 	CSRFToken       string
+	User            *models.User
 }
 
 // returns a nicely formatted UTC string representation of a time.Time object
