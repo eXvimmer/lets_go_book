@@ -12,7 +12,7 @@ import (
 func (app *application) routes() http.Handler {
 	router := httprouter.New()
 	router.NotFound = http.HandlerFunc(
-		func(w http.ResponseWriter, r *http.Request) {
+		func(w http.ResponseWriter, _ *http.Request) {
 			app.notFound(w)
 		},
 	)

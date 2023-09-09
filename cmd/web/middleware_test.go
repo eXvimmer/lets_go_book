@@ -16,7 +16,7 @@ func TestSecureHeaders(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	next := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	next := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.Write([]byte("OK"))
 	})
 

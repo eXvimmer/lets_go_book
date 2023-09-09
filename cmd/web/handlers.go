@@ -38,7 +38,7 @@ type accountPasswordUpdateForm struct {
 	validator.Validator     `form:"-"`
 }
 
-func ping(w http.ResponseWriter, r *http.Request) {
+func ping(w http.ResponseWriter, _ *http.Request) {
 	w.Write([]byte("OK"))
 }
 
